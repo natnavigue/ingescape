@@ -233,6 +233,15 @@ PyObject *Agent_service_args_count(AgentObject *self, PyObject *args, PyObject *
 PyObject *Agent_service_args_list(AgentObject *self, PyObject *args, PyObject *kwds);
 PyObject *Agent_service_args_exists(AgentObject *self, PyObject *args, PyObject *kwds);
 
+PyObject *Agent_service_reply_add_wrapper(AgentObject *self, PyObject *args, PyObject *kwds);
+PyObject *Agent_service_reply_remove_wrapper(AgentObject *self, PyObject *args, PyObject *kwds);
+PyObject *Agent_service_reply_arg_add_wrapper(AgentObject *self, PyObject *args, PyObject *kwds);
+PyObject *Agent_service_reply_arg_remove_wrapper(AgentObject *self, PyObject *args, PyObject *kwds);
+PyObject *Agent_service_has_reply_wrapper(AgentObject *self, PyObject *args, PyObject *kwds);
+PyObject *Agent_service_reply_names_wrapper(AgentObject *self, PyObject *args, PyObject *kwds);
+PyObject *Agent_service_reply_args_list_wrapper(AgentObject *self, PyObject *args, PyObject *kwds);
+PyObject *Agent_service_reply_args_count_wrapper(AgentObject *self, PyObject *args, PyObject *kwds);
+PyObject *Agent_service_reply_arg_exists_wrapper(AgentObject *self, PyObject *args, PyObject *kwds);
 
 PyObject *Agent_election_join(AgentObject *self, PyObject *args, PyObject *kwds);
 PyObject *Agent_election_leave(AgentObject *self, PyObject *args, PyObject *kwds);

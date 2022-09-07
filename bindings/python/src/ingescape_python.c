@@ -225,6 +225,16 @@ static PyMethodDef Ingescape_methods[] =
     {"service_arg_exists", service_arg_exists_wrapper, METH_VARARGS, "service_arg_exists(service_name, argument_name, \)\n--\n\n "},
     {"service_init", service_init_wrapper, METH_VARARGS, "service_init(service_name, callback, my_data, \)\n--\n\n "},
 
+    //Services reply
+    {"service_reply_add", service_reply_add_wrapper, METH_VARARGS, "service_reply_add(service_name, reply_name, \)\n--\n\n "},
+    {"service_reply_remove", service_reply_remove_wrapper, METH_VARARGS, "service_reply_remove(service_name, reply_name, \)\n--\n\n "},
+    {"service_reply_arg_add", service_reply_arg_add_wrapper, METH_VARARGS, "service_reply_arg_add(service_name, reply_name, arg_name, argument_type, \)\n--\n\n "},
+    {"service_reply_arg_remove", service_reply_arg_remove_wrapper, METH_VARARGS, "service_reply_arg_remove(service_name, reply_name, arg_name, \)\n--\n\n "},
+    {"service_has_reply", service_has_reply_wrapper, METH_VARARGS, "service_has_reply(service_name, reply_name, \)\n--\n\n "},
+    {"service_reply_names", service_reply_names_wrapper, METH_VARARGS, "service_reply_names(service_name, \)\n--\n\n "},
+    {"service_reply_args_list", service_reply_args_list_wrapper, METH_VARARGS, "service_reply_args_list(service_name, reply_name, \)\n--\n\n "},
+    {"service_reply_args_count", service_reply_args_count_wrapper, METH_VARARGS, "service_reply_args_count(service_name, reply_name, \)\n--\n\n "},
+    {"service_reply_arg_exists", service_reply_arg_exists_wrapper, METH_VARARGS, "service_reply_arg_exists(service_name, reply_name, arg_name, \)\n--\n\n "},
 
     //logs and debug messages
     {"log_set_console", log_set_console_wrapper, METH_VARARGS, "log_set_console(verbose, \)\n--\n\n "},
@@ -593,6 +603,17 @@ static PyMethodDef Agent_methods[] = {
     {"service_args_count", (PyCFunction) Agent_service_args_count, METH_VARARGS, "service_args_count(self, service_name, \)\n--\n\n "},
     {"service_args_list", (PyCFunction) Agent_service_args_list, METH_VARARGS, "service_args_list(self, service_name, \)\n--\n\n "},
     {"service_arg_exists", (PyCFunction) Agent_service_args_exists, METH_VARARGS, "service_arg_exists(self, service_name, arg_name, \)\n--\n\n "},
+
+    //Services reply
+    {"service_reply_add", (PyCFunction) Agent_service_reply_add_wrapper, METH_VARARGS, "service_reply_add(self, service_name, reply_name, \)\n--\n\n "},
+    {"service_reply_remove", (PyCFunction) Agent_service_reply_remove_wrapper, METH_VARARGS, "service_reply_remove(self, service_name, reply_name, \)\n--\n\n "},
+    {"service_reply_arg_add", (PyCFunction) Agent_service_reply_arg_add_wrapper, METH_VARARGS, "service_reply_arg_add(self, service_name, reply_name, arg_name, argument_type, \)\n--\n\n "},
+    {"service_reply_arg_remove", (PyCFunction) Agent_service_reply_arg_remove_wrapper, METH_VARARGS, "service_reply_arg_remove(self, service_name, reply_name, arg_name, \)\n--\n\n "},
+    {"service_has_reply", (PyCFunction) Agent_service_has_reply_wrapper, METH_VARARGS, "service_has_reply(self, service_name, reply_name, \)\n--\n\n "},
+    {"service_reply_names", (PyCFunction) Agent_service_reply_names_wrapper, METH_VARARGS, "service_reply_names(self, service_name, \)\n--\n\n "},
+    {"service_reply_args_list", (PyCFunction) Agent_service_reply_args_list_wrapper, METH_VARARGS, "service_reply_args_list(self, service_name, reply_name, \)\n--\n\n "},
+    {"service_reply_args_count", (PyCFunction) Agent_service_reply_args_count_wrapper, METH_VARARGS, "service_reply_args_count(self, service_name, reply_name, \)\n--\n\n "},
+    {"service_reply_arg_exists", (PyCFunction) Agent_service_reply_arg_exists_wrapper, METH_VARARGS, "service_reply_arg_exists(self, service_name, reply_name, arg_name, \)\n--\n\n "},
 
     //////////////////////////////////////////
     // Elections and leadership between agents

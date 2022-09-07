@@ -1658,3 +1658,121 @@ PyObject * service_arg_exists_wrapper(PyObject * self, PyObject * args)
     else
         Py_RETURN_FALSE;
 }
+
+PyObject * service_reply_add_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"service_name", "reply_name", NULL};
+    char *service_name = NULL;
+    char *reply_name = NULL;
+    if (!PyArg_ParseTupleAndKeywords(args, NULL, "ss", kwlist, &service_name, &reply_name))
+        return NULL;
+    return PyLong_FromLong(igs_service_reply_add(service_name, reply_name));
+}
+
+PyObject * service_reply_remove_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"service_name", "reply_name", NULL};
+    char *service_name = NULL;
+    char *reply_name = NULL;
+    if (!PyArg_ParseTupleAndKeywords(args, NULL, "ss", kwlist, &service_name, &reply_name))
+        return NULL;
+    return PyLong_FromLong(igs_service_reply_remove(service_name, reply_name));
+}
+
+PyObject * service_reply_arg_add_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"service_name", "reply_name", "arg_name", "type", NULL};
+    char *service_name = NULL;
+    char *reply_name = NULL;
+    char *arg_name = NULL;
+    int type = NULL;
+    if (!PyArg_ParseTupleAndKeywords(args, NULL, "sssi", kwlist, &service_name, &reply_name, &arg_name, &type))
+        return NULL;
+    return PyLong_FromLong(igs_service_reply_arg_add(service_name, reply_name, arg_name, type));
+}
+
+PyObject * service_reply_arg_remove_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"service_name", "reply_name", "arg_name", NULL};
+    char *service_name = NULL;
+    char *reply_name = NULL;
+    char *arg_name = NULL;
+    if (!PyArg_ParseTupleAndKeywords(args, NULL, "sss", kwlist, &service_name, &reply_name, &arg_name))
+        return NULL;
+    return PyLong_FromLong(igs_service_reply_arg_remove(service_name, reply_name, arg_name, type));
+}
+
+PyObject * service_has_reply_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"service_name", "reply_name", NULL};
+    char *service_name = NULL;
+    char *reply_name = NULL;
+    if (!PyArg_ParseTupleAndKeywords(args, NULL, "ss", kwlist, &service_name, &reply_name))
+        return NULL;
+    if(igs_service_has_reply(service_name, reply_name)){
+        Py_RETURN_TRUE;
+    }else{
+        Py_RETURN_FALSE;
+    }
+}
+
+PyObject * service_reply_names_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"service_name", NULL};
+    char *service_name = NULL;
+    if (!PyArg_ParseTupleAndKeywords(args, NULL, "s", kwlist, &service_name))
+        return NULL;
+    size_t service_replies_nbr = 0;
+    char **reply_names = igs_service_reply_names(service_name, service_replies_nbr);
+    PyObject * ret = PyList_New(service_replies_nbr);
+    for (size_t i = 0; i < service_replies_nbr; i++){
+        PyList_SetItem(ret, i, Py_BuildValue("s", reply_names[i]));
+    }
+    igs_free_services_list(reply_names, service_replies_nbr);
+    return ret;
+}
+
+PyObject * service_reply_args_list_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"service_name", "reply_name", NULL};
+    char *service_name = NULL;
+    char *reply_name = NULL;
+    if (!PyArg_ParseTupleAndKeywords(args, NULL, "ss", kwlist, &service_name, &reply_name))
+        return NULL;
+    igs_service_arg_t *first_arg = igs_service_reply_args_first(service_name, reply_name);
+    size_t nb_of_args = igs_service_reply_args_count(service_name, reply_name);
+    PyObject *ret = PyTuple_New(nb_of_args);
+    size_t index = 0;
+    igs_service_arg_t *newArg = NULL;
+    LL_FOREACH(firstElement, newArg){
+        PyTuple_SetItem(ret, index, Py_BuildValue("(si)",newArg->name, newArg->type));
+        index ++;
+    }
+    return ret;
+}
+
+PyObject * service_reply_args_count_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"service_name", "reply_name", NULL};
+    char *service_name = NULL;
+    char *reply_name = NULL;
+    if (!PyArg_ParseTupleAndKeywords(args, NULL, "ss", kwlist, &service_name, &reply_name))
+        return NULL;
+    return PyLong_FromLong((long)igs_service_reply_args_count(service_name, reply_name));
+}
+
+PyObject * service_reply_arg_exists_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"service_name", "reply_name", "arg_name", NULL};
+    char *service_name = NULL;
+    char *reply_name = NULL;
+    char *arg_name = NULL;
+    if (!PyArg_ParseTupleAndKeywords(args, NULL, "sss", kwlist, &service_name, &reply_name, &arg_name))
+        return NULL;
+    if(igs_service_reply_arg_exists(service_name, reply_name, arg_name)){
+        Py_RETURN_TRUE;
+    }else{
+        Py_RETURN_FALSE;
+    }
+}
+
