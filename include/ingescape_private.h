@@ -136,7 +136,7 @@ typedef struct igs_service{
     igsagent_service_fn *cb;
     void *cb_data;
     igs_service_arg_t *arguments;
-    struct igs_service *reply;
+    struct igs_service *replies;
     UT_hash_handle hh;
 } igs_service_t;
 
@@ -381,6 +381,9 @@ typedef struct igs_core_context {
     size_t log_file_max_line_length;
     char log_file_path[IGS_MAX_PATH_LENGTH];
     int log_nb_of_entries; //for fflush rotation
+    
+    //model
+    bool allow_undefined_services;
 
     // network
     bool network_allow_ipc;

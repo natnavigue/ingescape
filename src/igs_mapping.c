@@ -451,7 +451,7 @@ igs_result_t igsagent_mapping_remove_with_id (igsagent_t *agent,
     HASH_FIND (hh, agent->mapping->map_elements, &the_id,
                sizeof (uint64_t), el);
     if (el == NULL) {
-        igsagent_error (agent, "id %ld is not part of the current mapping", the_id);
+        igsagent_error (agent, "id %llu is not part of the current mapping", the_id);
         return IGS_FAILURE;
     }
     model_read_write_lock (__FUNCTION__, __LINE__);
@@ -495,7 +495,7 @@ igs_result_t igsagent_mapping_remove_with_name (igsagent_t *agent,
     free (mashup);
 
     igs_map_t *tmp = NULL;
-    if (agent->mapping->map_elements != NULL)
+    if (agent->mapping->map_elements)
         HASH_FIND (hh, agent->mapping->map_elements, &h, sizeof (uint64_t),
                    tmp);
     if (tmp == NULL) {
