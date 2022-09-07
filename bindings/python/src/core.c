@@ -1716,6 +1716,19 @@ PyObject * service_has_reply_wrapper(PyObject *self, PyObject *args, PyObject *k
     }
 }
 
+PyObject * service_has_replies_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"service_name", NULL};
+    char *service_name = NULL;
+    if (!PyArg_ParseTupleAndKeywords(args, NULL, "s", kwlist, &service_name))
+        return NULL;
+    if(igs_service_has_replies(service_name)){
+        Py_RETURN_TRUE;
+    }else{
+        Py_RETURN_FALSE;
+    }
+}
+
 PyObject * service_reply_names_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
 {
     static char *kwlist[] = {"service_name", NULL};
