@@ -239,6 +239,37 @@ assert igs.service_args_list("second_service") == (('first_arg', igs.INTEGER_T),
 assert igs.service_args_count("second_service") == 3
 print ("OK")
 
+print ("[Global API] Testing agent services replies", end =" ")
+igs.service_init("service_with_reply", testerServiceCallback, None)
+assert igs.service_has_replies("service_with_reply") == False
+assert igs.service_has_reply("service_with_reply", "test") == False
+assert igs.service_reply_names("service_with_reply") == []
+igs.service_reply_add("service_with_reply", "first_reply")
+assert igs.service_has_replies("service_with_reply") == True
+assert igs.service_has_reply("service_with_reply", "first_reply") == True
+assert igs.service_reply_names("service_with_reply") == ["first_reply"]
+igs.service_reply_remove("service_with_reply", "first_reply")
+assert igs.service_has_replies("service_with_reply") == False
+assert igs.service_has_reply("service_with_reply", "test") == False
+assert igs.service_reply_names("service_with_reply") == []
+igs.service_reply_add("service_with_reply", "first_reply")
+assert igs.service_reply_args_count("service_with_reply", "first_reply") == 0
+assert igs.service_reply_arg_exists("service_with_reply", "first_reply", "first_arg") == False
+assert igs.service_reply_args_list("service_with_reply", "first_reply") == ()
+igs.service_reply_arg_add("service_with_reply", "first_reply", "first_arg", igs.INTEGER_T)
+assert igs.service_reply_args_count("service_with_reply", "first_reply") == 1
+assert igs.service_reply_arg_exists("service_with_reply", "first_reply", "first_arg") == True
+assert igs.service_reply_args_list("service_with_reply", "first_reply") == (("first_arg",igs.INTEGER_T),)
+igs.service_reply_arg_add("service_with_reply", "first_reply", "second_arg", igs.DOUBLE_T)
+assert igs.service_reply_args_count("service_with_reply", "first_reply") == 2
+assert igs.service_reply_arg_exists("service_with_reply", "first_reply", "second_arg") == True
+assert igs.service_reply_args_list("service_with_reply", "first_reply") == (("first_arg",igs.INTEGER_T), ("second_arg",igs.DOUBLE_T))
+igs.service_reply_arg_remove("service_with_reply", "first_reply", "second_arg")
+assert igs.service_reply_args_count("service_with_reply", "first_reply") == 1
+assert igs.service_reply_arg_exists("service_with_reply", "first_reply", "first_arg") == True
+assert igs.service_reply_args_list("service_with_reply", "first_reply") == (("first_arg",igs.INTEGER_T),)
+print ("OK")
+
 print ("[Global API] Testing channels", end =" ")
 assert igs.peer_add_header("publisher", "toto") == igs.FAILURE
 assert igs.peer_add_header("logger", "toto") == igs.FAILURE
@@ -432,7 +463,7 @@ igs.input_set_int("my_int", 3)
 assert igs.input_bool("my_int")
 assert igs.input_int("my_int") == 3
 assert igs.input_double("my_int") - 3.0 < 0.000001
-assert int(igs.input_string("my_int")) -3 ==0
+assert int(igs.input_string("my_int")) - 3 ==0
 igs.input_set_int("my_int", 0)
 assert not igs.input_bool("my_int")
 assert igs.input_int("my_int") == 0

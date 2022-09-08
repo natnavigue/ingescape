@@ -1685,7 +1685,7 @@ PyObject * service_reply_arg_add_wrapper(PyObject *self, PyObject *args, PyObjec
     char *service_name = NULL;
     char *reply_name = NULL;
     char *arg_name = NULL;
-    int type = NULL;
+    int type = 0;
     if (!PyArg_ParseTupleAndKeywords(args, NULL, "sssi", kwlist, &service_name, &reply_name, &arg_name, &type))
         return NULL;
     return PyLong_FromLong(igs_service_reply_arg_add(service_name, reply_name, arg_name, type));
@@ -1699,7 +1699,7 @@ PyObject * service_reply_arg_remove_wrapper(PyObject *self, PyObject *args, PyOb
     char *arg_name = NULL;
     if (!PyArg_ParseTupleAndKeywords(args, NULL, "sss", kwlist, &service_name, &reply_name, &arg_name))
         return NULL;
-    return PyLong_FromLong(igs_service_reply_arg_remove(service_name, reply_name, arg_name, type));
+    return PyLong_FromLong(igs_service_reply_arg_remove(service_name, reply_name, arg_name));
 }
 
 PyObject * service_has_reply_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
@@ -1736,12 +1736,13 @@ PyObject * service_reply_names_wrapper(PyObject *self, PyObject *args, PyObject 
     if (!PyArg_ParseTupleAndKeywords(args, NULL, "s", kwlist, &service_name))
         return NULL;
     size_t service_replies_nbr = 0;
-    char **reply_names = igs_service_reply_names(service_name, service_replies_nbr);
+    char **reply_names = igs_service_reply_names(service_name, &service_replies_nbr);
     PyObject * ret = PyList_New(service_replies_nbr);
     for (size_t i = 0; i < service_replies_nbr; i++){
         PyList_SetItem(ret, i, Py_BuildValue("s", reply_names[i]));
     }
-    igs_free_services_list(reply_names, service_replies_nbr);
+    if(reply_names)
+        igs_free_services_list(reply_names, service_replies_nbr);
     return ret;
 }
 
@@ -1757,7 +1758,7 @@ PyObject * service_reply_args_list_wrapper(PyObject *self, PyObject *args, PyObj
     PyObject *ret = PyTuple_New(nb_of_args);
     size_t index = 0;
     igs_service_arg_t *newArg = NULL;
-    LL_FOREACH(firstElement, newArg){
+    LL_FOREACH(first_arg, newArg){
         PyTuple_SetItem(ret, index, Py_BuildValue("(si)",newArg->name, newArg->type));
         index ++;
     }
