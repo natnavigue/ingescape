@@ -69,7 +69,7 @@ PyObject * log_set_file_wrapper(PyObject * self, PyObject * args)
     if(pathObject != Py_None)
     {
         char *path_c;
-        if (!PyArg_ParseTuple(args, "bO", &useLogFile, &path_c))
+        if (!PyArg_ParseTuple(args, "bs", &useLogFile, &path_c))
             return NULL;
         igs_log_set_file(useLogFile, path_c);
     }
